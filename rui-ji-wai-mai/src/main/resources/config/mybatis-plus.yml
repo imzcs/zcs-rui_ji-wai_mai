@@ -1,0 +1,10 @@
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true    #默认开启驼峰映射
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
+  global-config:
+    banner: false
+    db-config:
+      id-type: auto
+      table-prefix: tb_
+      logic-delete-field: deleted

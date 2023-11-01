@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/rui-ji-wai-mai/rui-ji-wai-mai.iml" filepath="$PROJECT_DIR$/rui-ji-wai-mai/rui-ji-wai-mai.iml" />
+      <module fileurl="file://$PROJECT_DIR$/zcs-rui_ji-wai_mai.iml" filepath="$PROJECT_DIR$/zcs-rui_ji-wai_mai.iml" />
+    </modules>
+  </component>
+</project>
