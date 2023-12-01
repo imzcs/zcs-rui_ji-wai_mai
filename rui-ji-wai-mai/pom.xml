@@ -17,6 +17,8 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <hutool.version>5.8.22</hutool.version>
+        <mybatis-plus.version>3.5.4</mybatis-plus.version>
     </properties>
 
     <dependencies>
@@ -47,7 +49,7 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.5.4</version>
+            <version>${mybatis-plus.version}</version>
         </dependency>
         <!-- lombok junit hutool-->
         <dependency>
@@ -62,7 +64,17 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-core</artifactId>
-            <version>5.8.22</version>
+            <version>${hutool.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-json</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+        <!-- redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
     </dependencies>
 

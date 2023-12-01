@@ -5,10 +5,12 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
+import static com.zcs.ruijiwaimai.util.RegexpTool.isInValidPhoneNumber;
+
 public class SimpleTest {
 
     @Test
     public void test() {
-        Arrays.stream(LoginType.values()).forEach(a -> System.out.println(a.ordinal()));
+        System.out.println(isInValidPhoneNumber("18851693525"));
     }
 }

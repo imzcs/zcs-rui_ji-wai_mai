@@ -6,6 +6,7 @@ logging:
   level:
     com.zcs.ruijiwaimai: debug
 spring:
+# db
   datasource:
     url: jdbc:mysql://mysql.sqlpub.com:3306/cscscs?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false
     username: cscscs
@@ -14,6 +15,25 @@ spring:
     init:
       schema-locations: classpath:db/schema.sql
       mode: always
+# redis
+  redis:
+#    cluster:
+#      nodes:
+#        - 192.168.100.3:6001
+    host: 192.168.100.3
+    port: 6001
+    database: 1
+    lettuce:
+      pool:
+        enabled: true
+        max-active: 8
+        max-idle: 8
+        max-wait: -1ms
+        min-idle: 0
+# jackson
+  jackson:
+    default-property-inclusion: non_null
+# mybatis-plus
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true    #默认开启驼峰映射
@@ -22,4 +42,3 @@ mybatis-plus:
     banner: false
     db-config:
       id-type: auto
-#      table-prefix: tb_
