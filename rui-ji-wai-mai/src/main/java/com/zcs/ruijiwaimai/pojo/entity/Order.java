@@ -1,17 +1,20 @@
 package com.zcs.ruijiwaimai.pojo.entity;
 
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.zcs.ruijiwaimai.constant.OrderState;
 import com.zcs.ruijiwaimai.constant.PaymentType;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
 
-@ToString
-@Getter
-@Setter
+@Data
+@TableName("tb_order")
 public class Order {
     private Long id;
     private Long userId;
@@ -28,4 +31,7 @@ public class Order {
     private LocalDateTime finishTime;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
+    @TableLogic
+    @TableField("is_deleted")
+    private Byte deleted;
 }

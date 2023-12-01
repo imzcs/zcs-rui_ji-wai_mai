@@ -3,19 +3,13 @@ package com.zcs.ruijiwaimai.pojo.entity;
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.zcs.ruijiwaimai.constant.Gender;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 
-@ToString
-@Getter
-@Setter
-// @Builder
-@Accessors(chain = true)
+@Data
+@TableName("tb_user_info")
 public class UserInfo extends Model<UserInfo> {
     private Long id;
     private Long userId;
@@ -26,6 +20,7 @@ public class UserInfo extends Model<UserInfo> {
     private String profilePhoto;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
+    @TableLogic
     @TableField("is_deleted")
     private Byte deleted;
 }
