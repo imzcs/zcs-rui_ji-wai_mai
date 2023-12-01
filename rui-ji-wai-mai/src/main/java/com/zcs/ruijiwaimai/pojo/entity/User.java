@@ -17,7 +17,9 @@ public class User {
     private String password;
     private LoginType loginType;
     private UserRole role;
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
     @TableLogic
     @TableField("is_deleted")

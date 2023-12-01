@@ -18,7 +18,9 @@ public class UserInfo extends Model<UserInfo> {
     private Gender gender;
     private String phone;
     private String profilePhoto;
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
     @TableLogic
     @TableField("is_deleted")

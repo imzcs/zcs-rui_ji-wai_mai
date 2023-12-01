@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zcs.ruijiwaimai.constant.Gender;
 import com.zcs.ruijiwaimai.mapper.UserInfoMapper;
 import com.zcs.ruijiwaimai.pojo.entity.UserInfo;
 import com.zcs.ruijiwaimai.service.impl.UserInfoServiceImpl;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,9 +31,11 @@ class RuiJiWaiMaiApplicationTests {
 
     @Test
     void contextLoads() {
-        UserInfo userInfo = userInfoService.getById(1);
-        System.out.println(userInfo);
-        userInfoService.removeById(userInfo);
+        UserInfo ui = new UserInfo();
+        ui.setId(2L);
+        // ui.setUpdateTime(LocalDateTime.now());
+        ui.setUsername("王五");
+        userInfoService.updateById(ui);
     }
 
 
