@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static com.zcs.ruijiwaimai.constant.RedisConstant.*;
@@ -41,13 +40,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public Result code(String phone) {
         // 检查手机号
         if (isInValidPhoneNumber(phone)) {
+            log.warn("The format of the mobile phone number [{}] is incorrect.", phone);
             return Result.fail("手机号格式不正确");
         }
         // 获取验证码
         String code = RandomUtil.randomNumbers(6);
         // 保存验证码
         String key = LOGIN_CODE_KEY_PREFIX + phone;
-        stringRedisTemplate.opsForValue().set(key, code, LOGIN_CODE_KEY_TTL, TimeUnit.SECONDS);
+        stringRedisTemplate.opsForValue().set(key, code, LOGIN_CODE_KEY_TTL, TimeUnit.MINUTES);
         // 发生验证码
         sendCode(code);
         return Result.ok();
@@ -55,34 +55,55 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Transactional
     @Override
-    public Result login(String phone, String code) {
-        // 检查手机号
-        if (isInValidPhoneNumber(phone)) {
-            return Result.fail("手机号格式不正确");
+    public Result login(LoginType loginType, String phone, String code, UserRole role) {
+        // 1.检查请求参数
+        String checkResult = paramCheck(loginType, phone, code, role);
+        if(checkResult != null) {
+            return Result.fail(checkResult);
         }
-        // 检查验证码
-        if (StrUtil.isEmpty(code)) {
-            return Result.fail("验证码格式不正确");
-        }
-        // 校验验证码
+        // 2.1校验验证码
         String key = LOGIN_CODE_KEY_PREFIX + phone;
-        String cacheCode = stringRedisTemplate.opsForValue().get(key);
+        String cacheCode = stringRedisTemplate.opsForValue().getAndDelete(key);
         if (StrUtil.isEmpty(cacheCode) || !cacheCode.equals(code)) {
+            // 2.2验证码错误
+            log.warn("The validation code [{}] is incorrect.", code);
             return Result.fail("验证码错误");
         }
+        // 3.验证码正确
         // 查询账号是否存在
-        User user = null;
-        List<User> list = list(Wrappers.<User>query().eq("account", phone).eq("login_type", LoginType.PHONE));
-        if (list == null || list.isEmpty()) {
-            // 不存在，创建心账户
-            user = createNewAccount(phone);
-        } else {
-            user = list.get(0);
+        User user = getOne(Wrappers.<User>query().eq("account", phone).eq("login_type", LoginType.PHONE));
+        if (user == null) {
+            // 3.1 不存在，创建新账号
+            user = createNewAccount(phone, role);
         }
-        // 存在，生成token，保存到redis中，将toekn返回
+        // 3.2 存在，生成token，保存到redis中，将token返回
        String token = generateAndSaveToken(user);
         return Result.ok(token);
     }
+
+    private String paramCheck (LoginType loginType, String phone, String code, UserRole role) {
+        if (loginType == null) {
+            log.error("The login type is [null].");
+            return "登录方式错误";
+        }
+        // 1.1 检查登录角色
+        if (role == null) {
+            log.error("The login role is [null].");
+            return "登录角色错误";
+        }
+        // 1.1检查手机号
+        if (isInValidPhoneNumber(phone)) {
+            log.warn("The format of the mobile phone number [{}] is incorrect.", phone);
+            return "手机号格式不正确";
+        }
+        // 1.2检查验证码
+        if (StrUtil.isEmpty(code)) {
+            log.warn("The format of the validation code [{}] is incorrect.", code);
+            return "验证码格式不正确";
+        }
+        return null;
+    }
+
 
     private String generateAndSaveToken(User user) {
         String token = RandomUtil.randomString(20);
@@ -93,12 +114,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return token;
     }
 
-    private User createNewAccount(String phone) {
+    private User createNewAccount(String phone, UserRole role) {
         // 创建账号
         User user = new User();
         user.setAccount(phone);
         user.setLoginType(LoginType.PHONE);
-        user.setRole(UserRole.CONSUMER);
+        user.setRole(role);
         boolean isOk = save(user);
         if (!isOk) {
             log.debug("create account fail");
@@ -122,6 +143,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     private void sendCode(String code) {
-        log.debug("发送验证码: " + code);
+        log.info("send phone validation code: " + code);
     }
 }

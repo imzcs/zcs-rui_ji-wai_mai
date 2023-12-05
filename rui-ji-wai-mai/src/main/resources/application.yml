@@ -6,7 +6,6 @@ logging:
   level:
     com.zcs.ruijiwaimai: debug
 spring:
-# db
   datasource:
     url: jdbc:mysql://mysql.sqlpub.com:3306/cscscs?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false
     username: cscscs
@@ -14,15 +13,18 @@ spring:
   sql:
     init:
       schema-locations: classpath:db/schema.sql
-      mode: always
-# redis
+      mode: never
   redis:
 #    cluster:
 #      nodes:
 #        - 192.168.100.3:6001
-    host: 192.168.100.3
-    port: 6001
-    database: 1
+    username: default
+    password: r4Q08dO7a6t80Gxt8eDMF2WLRVTBYDo7
+    host: redis-10334.c290.ap-northeast-1-2.ec2.cloud.redislabs.com
+    port: 10334
+#    host: 192.168.100.3
+#    port: 6001
+    database: 0
     lettuce:
       pool:
         enabled: true
@@ -30,7 +32,8 @@ spring:
         max-idle: 8
         max-wait: -1ms
         min-idle: 0
-# jackson
+
+  # jackson
   jackson:
     default-property-inclusion: non_null
 # mybatis-plus

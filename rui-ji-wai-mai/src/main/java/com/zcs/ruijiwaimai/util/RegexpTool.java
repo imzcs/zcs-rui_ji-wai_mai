@@ -8,9 +8,9 @@ public class RegexpTool {
 
     public static boolean isInValidPhoneNumber(String phone) {
         if (phone == null || phone.isEmpty()) {
-            return false;
+            return true;
         }
-        return Pattern.matches(PHONE_REGEXP, phone);
+        return !Pattern.matches(PHONE_REGEXP, phone);
     }
 
 }

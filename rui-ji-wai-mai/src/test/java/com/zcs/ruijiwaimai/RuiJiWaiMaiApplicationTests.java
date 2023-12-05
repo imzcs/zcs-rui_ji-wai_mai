@@ -29,13 +29,12 @@ class RuiJiWaiMaiApplicationTests {
     @Resource
     UserInfoService userInfoService;
 
+    @Resource
+    UserService userService;
+
     @Test
     void contextLoads() {
-        UserInfo ui = new UserInfo();
-        ui.setId(2L);
-        // ui.setUpdateTime(LocalDateTime.now());
-        ui.setUsername("王五");
-        userInfoService.updateById(ui);
+        System.out.println(userService.code("18851693225"));
     }
 
 
