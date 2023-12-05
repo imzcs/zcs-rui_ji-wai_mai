@@ -8,7 +8,8 @@ import com.zcs.ruijiwaimai.pojo.entity.User;
 
 public interface UserService extends IService<User> {
     Result code(String phone);
+    Result login(LoginType loginType, UserRole role, String phone, String code, String password);
 
-    Result login(LoginType loginType, String phone, String code, UserRole role);
+    Result modifyPassword(String oldPassword, String newPassword);
 
 }

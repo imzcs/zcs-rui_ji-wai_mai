@@ -23,12 +23,18 @@ public class UserController {
 
     @PostMapping("/login")
     public Result login(
-            @RequestParam(value = "type", defaultValue = "PHONE") LoginType loginType,
-            @RequestParam("phone") String phone,
-            @RequestParam("code") String code,
-            @RequestParam("role") UserRole role
+            @RequestParam(value = "type", defaultValue = "PHONE_AND_CODE") LoginType loginType,
+            @RequestParam("role") UserRole role,
+            @RequestParam(value = "phone", required = false) String phone,
+            @RequestParam(value = "code", required = false) String code,
+            @RequestParam(value = "password", required = false) String password
     ) {
-        return userService.login(loginType, phone, code, role);
+        return userService.login(loginType, role, phone, code, password);
+    }
+
+    @PostMapping("/password")
+    public Result modifyPassword(@RequestParam(value = "old", required = false) String oldPassword, @RequestParam("new") String newPassword) {
+        return userService.modifyPassword(oldPassword, newPassword);
     }
 
 }

@@ -2,7 +2,7 @@ create table if not exists tb_user
 (
     id          bigint unsigned auto_increment,
     account     varchar(100)     not null comment '账号',
-    password    varchar(25)      not null default '' comment '密码',
+    password    varchar(100)      not null default '' comment '密码',
     login_type  tinyint unsigned not null comment '登录方式',
     role        tinyint          not null default 0 comment '角色',
     create_time datetime         not null default current_timestamp,
